@@ -72,17 +72,31 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
         .attr("fill", "blue")
         .attr("opacity", ".5");
 
-    /* Create the text for each block */
-    circlesGroup.append("text")
-        .text(function (d) {
-            return d.abbr
+    /* Create the text for each circle */
+    circlesGroup.append("g")
+        .selectAll("text")
+        .data(healthData)
+        .enter()
+        .append("text")
+        .text((i, d) => d.abbr[i])
+        .attr({
+            'font-size': 8, //font size
+            "text-anchor": "middle" //positions text in center of the circle
         });
-        // .attr({
-        //     "text-anchor": "middle",
-        //     // "font-size": function (d) {
-        //     //     return d.r / ((d.r * 10) / 100);
-        //     // }
-        // });
+
+    // Create the event listeners with transitions
+    barsGroup.on("mouseover", function () {
+        d3.select(this)
+            .transition()
+            .duration(500)
+            .attr("fill", "red");
+    })
+        .on("mouseout", function () {
+            d3.select(this)
+                .transition()
+                .duration(500)
+                .attr("fill", "green");
+        });
 
     //     // Step 6: Initialize tool tip
     //     // ==============================
