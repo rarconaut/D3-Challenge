@@ -55,14 +55,17 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
     // ==============================
     chartGroup.append("g")
         .attr("transform", `translate(0, ${chartHeight})`)
+        .classed("x", true)
         .call(bottomAxis);
 
     chartGroup.append("g")
+        .classed("y", true)
         .call(leftAxis);
 
     // Step 5: Create Circles
     // ==============================
-    var circlesGroup = chartGroup.selectAll("circle")
+    var circlesGroup = chartGroup.append("g")
+        .selectAll("circle")
         .data(healthData)
         .enter()
         .append("circle")
@@ -70,11 +73,11 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
         .attr("cy", d => yLinearScale(d.obesity))
         .attr("r", "15")
         .attr("fill", "blue")
-        .attr("opacity", ".5");
+        .attr("opacity", ".5")
+        .classed("dot", true);
 
-    /* Create the text for each circle */
-    circlesGroup.append("g")
-        .selectAll("text")
+    // /* Create the text for each circle */
+    var textGroup = chartGroup.selectAll("g.dot")
         .data(healthData)
         .enter()
         .append("text")
@@ -92,12 +95,13 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
             .attr("r", "75")
             .attr("fill", "red")
             .attr("opacity", ".99")
-            .attr("class", "clicked");  
+            .attr("class", "clicked");
     })
         .on("mouseout", function () {
+            // for clicked points, returns to original size with different color
             // console.log(this);
             if (d3.select(this).classed("clicked")) {
-                console.log(this);
+                // console.log(this);
                 d3.select(this)
                     .attr("fill", "green")
                     .attr("opacity", ".5")
@@ -105,8 +109,9 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
                     .duration(500)
                     .attr("r", "15");
             }
+            // for unclicked points, returns to original size and color
             else {
-                console.log(this);
+                // console.log(this);
                 d3.select(this)
                     .attr("fill", "blue")
                     .attr("opacity", ".5")
