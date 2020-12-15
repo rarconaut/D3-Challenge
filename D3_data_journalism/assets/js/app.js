@@ -1,61 +1,64 @@
 // @TODO: YOUR CODE HERE!
 
 // Outline for homework adapted from 16/D3/3/Activities/09-Stu_Hair_Metal
-// var svgWidth = 960;
-// var svgHeight = 500;
+var svgWidth = 960;
+var svgHeight = 500;
 
-// var margin = {
-//   top: 20,
-//   right: 40,
-//   bottom: 60,
-//   left: 100
-// };
+var margin = {
+  top: 20,
+  right: 40,
+  bottom: 60,
+  left: 100
+};
 
-// var width = svgWidth - margin.left - margin.right;
-// var height = svgHeight - margin.top - margin.bottom;
+var charWidth = svgWidth - margin.left - margin.right;
+var chartHeight = svgHeight - margin.top - margin.bottom;
 
-// // Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by left and top margins.
-// var svg = d3.select(".chart")
-//   .append("svg")
-//   .attr("width", svgWidth)
-//   .attr("height", svgHeight);
+// Create an SVG wrapper, append an SVG group that will hold our chart, and shift the latter by 
+// left and top margins.
+var svg = d3.select("#scatter")
+  .append("svg")
+  .attr("width", svgWidth)
+  .attr("height", svgHeight);
 
-// var chartGroup = svg.append("g")
-//   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+var chartGroup = svg.append("g")
+  .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-// // Import Data
-// d3.csv("hairData.csv").then(function(hairData) {
+// Import Data
+d3.csv("assets/data/data.csv").then(function(healthData) {
 
-//     // Step 1: Parse Data/Cast as numbers
-//     // ==============================
-//     hairData.forEach(function(data) {
-//       data.hair_length = +data.hair_length;
-//       data.num_hits = +data.num_hits;
-//     });
+    // Step 1: Parse Data/Cast as numbers
+    // ==============================
+    healthData.forEach(function(data) {
+        console.log(data.state, data.income);
+    //   data.hair_length = +data.income;
+    //   data.num_hits = +data.income;
+    //   console.log(data.state, data.income)
+    });
 
-//     // Step 2: Create scale functions
-//     // ==============================
-//     var xLinearScale = d3.scaleLinear()
-//       .domain([20, d3.max(hairData, d => d.hair_length)])
-//       .range([0, width]);
+    // Step 2: Create scale functions
+    // ==============================
+    var xLinearScale = d3.scaleLinear()
+      .domain([d3.min(healthData, d => d.income), d3.max(healthData, d => d.income)])
+      .range([0, width]);
 
-//     var yLinearScale = d3.scaleLinear()
-//       .domain([0, d3.max(hairData, d => d.num_hits)])
-//       .range([height, 0]);
+    var yLinearScale = d3.scaleLinear()
+      .domain([d3.min(healthData, d => d.obesity), d3.max(healthData, d => d.obesity)])
+      .range([height, 0]);
 
-//     // Step 3: Create axis functions
-//     // ==============================
-//     var bottomAxis = d3.axisBottom(xLinearScale);
-//     var leftAxis = d3.axisLeft(yLinearScale);
+    // Step 3: Create axis functions
+    // ==============================
+    var bottomAxis = d3.axisBottom(xLinearScale);
+    var leftAxis = d3.axisLeft(yLinearScale);
 
-//     // Step 4: Append Axes to the chart
-//     // ==============================
-//     chartGroup.append("g")
-//       .attr("transform", `translate(0, ${height})`)
-//       .call(bottomAxis);
+    // Step 4: Append Axes to the chart
+    // ==============================
+    chartGroup.append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(bottomAxis);
 
-//     chartGroup.append("g")
-//       .call(leftAxis);
+    chartGroup.append("g")
+      .call(leftAxis);
 
 //     // Step 5: Create Circles
 //     // ==============================
@@ -105,6 +108,6 @@
 //       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
 //       .attr("class", "axisText")
 //       .text("Hair Metal Band Hair Length (inches)");
-//   }).catch(function(error) {
-//     console.log(error);
-//   });
+  }).catch(function(error) {
+    console.log(error);
+  });
