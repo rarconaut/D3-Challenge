@@ -63,7 +63,7 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
     // Step 5: Create Circles
     // ==============================
     var circlesGroup = chartGroup.selectAll("circle")
-    .data(hairData)
+    .data(healthData)
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d.income))
@@ -72,6 +72,8 @@ d3.csv("assets/data/data.csv").then(function(healthData) {
     .attr("fill", "blue")
     .attr("opacity", ".5")
     .text(`${d.abbr}`);
+
+    // chartGroup.call(circlesGroup);
 
 //     // Step 6: Initialize tool tip
 //     // ==============================
