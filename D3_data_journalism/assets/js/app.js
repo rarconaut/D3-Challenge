@@ -84,62 +84,37 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
             "text-anchor": "middle" //positions text in center of the circle
         });
 
-    // Create the event listeners with transitions
-    var dispatch = d3.dispatch('unhighlightAll', 'toggleSingle')
-        // remove the `highlighted` class on all circles
-        .on('unhighlightAll', function () {
-            d3.selectAll('circle').classed('highlighted', false);
-        })
-        // toggle the `highlighted` class on element `el`
-        .on('toggleSingle', function (el) {
-            d3.select(el).classed('highlighted', function () {
-                return d3.select(el).classed('highlighted', true);
-            });
+    // Event handlers for interactive scatter points 
+    circlesGroup.on("click", function () {
+        d3.select(this)
+            .transition()
+            .duration(500)
+            .attr("r", "75")
+            .attr("fill", "red")
+            .attr("opacity", ".99")
+            .attr("class", "clicked");  
+    })
+        .on("mouseout", function () {
+            // console.log(this);
+            if (d3.select(this).classed("clicked")) {
+                console.log(this);
+                d3.select(this)
+                    .attr("fill", "green")
+                    .attr("opacity", ".5")
+                    .transition()
+                    .duration(500)
+                    .attr("r", "15");
+            }
+            else {
+                console.log(this);
+                d3.select(this)
+                    .attr("fill", "blue")
+                    .attr("opacity", ".5")
+                    .transition()
+                    .duration(500)
+                    .attr("r", "15");
+            }
         });
-
-    svg.on('click', function () {
-        // do nothing if a clickable circle is clicked
-        if (d3.select('circle')) {
-            return;
-        } 
-        else {
-            // otherwise unhighlight all circles
-            dispatch.unhighlightAll();
-        }
-    });
-
-    circlesGroup.on('click', function () {
-        return dispatch.toggleSingle(this);
-    });
-
-    // circlesGroup.on("click", function () {
-    //     // isClicked = !isClicked;
-    //     d3.select(this)
-    //         .transition()
-    //         .duration(500)
-    //         .attr("r", "75")
-    //         .attr("fill", "red")
-    //         .attr("opacity", ".99")
-    //         .classed("clicked", true);
-    // })
-    //     .on("mouseout", function (p) {
-    //         if (.clicked) {
-    //             d3.select(this)
-    //                 .attr("fill", "green")
-    //                 .attr("opacity", ".5")
-    //                 .transition()
-    //                 .duration(500)
-    //                 .attr("r", "15");
-    //         }
-    //         else {
-    //             d3.select(this)
-    //                 .attr("fill", "blue")
-    //                 .attr("opacity", ".5")
-    //                 .transition()
-    //                 .duration(500)
-    //                 .attr("r", "15");
-    //         }
-    //     });
 
     //     // Step 6: Initialize tool tip
     //     // ==============================
