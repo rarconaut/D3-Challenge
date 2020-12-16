@@ -88,7 +88,8 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
         });
 
     // Event handlers for interactive scatter points 
-    circlesGroup.on("click", function () {
+    circlesGroup.on("click", function (healthData) {
+        toolTip.show(healthData, this);
         d3.select(this)
             .transition()
             .duration(500)
@@ -97,7 +98,8 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
             .attr("opacity", ".99")
             .attr("class", "clicked");
     })
-        .on("mouseout", function () {
+        .on("mouseout", function (healthData, index) {
+            toolTip.hide(healthData);
             // for clicked points, returns to original size with different color
             // console.log(this);
             if (d3.select(this).classed("clicked")) {
@@ -121,28 +123,28 @@ d3.csv("assets/data/data.csv").then(function (healthData) {
             }
         });
 
-    //     // Step 6: Initialize tool tip
-    //     // ==============================
-    //     var toolTip = d3.tip()
-    //       .classed("tooltip", true)
-    //       .offset([80, -60])
-    //       .html(function(d) {
-    //         return (`${d.rockband}<br>Hair length: ${d.hair_length}<br>Hits: ${d.num_hits}`);
-    //       });
+        // Step 6: Initialize tool tip
+        // ==============================
+    var toolTip = d3.tip()
+        .attr("class", "tooltip")
+        .offset([15, 0])
+        .html(function (d) {
+            return (`${d.state}<br>Income: ${d.income}<br>Obesity: ${d.obesity}`);
+        });
 
-    //     // Step 7: Create tooltip in the chart
-    //     // ==============================
-    //     chartGroup.call(toolTip);
+        // Step 7: Create tooltip in the chart
+        // ==============================
+        chartGroup.call(toolTip);
 
-    //     // Step 8: Create event listeners to display and hide the tooltip
-    //     // ==============================
-    //     circlesGroup.on("click", function(data) {
-    //       toolTip.show(data, this);
-    //     })
-    //       // onmouseout event
-    //       .on("mouseout", function(data, index) {
-    //         toolTip.hide(data);
-    //       });
+        // Step 8: Create event listeners to display and hide the tooltip
+        // ==============================
+        // circlesGroup.on("click", function(healthData) {
+        //   toolTip.show(healthData, this);
+        // })
+        //   // onmouseout event
+        //   .on("mouseout", function(healthData, index) {
+            // toolTip.hide(healthData);
+        //   });
 
     //     // Create axes labels
     //     chartGroup.append("text")
