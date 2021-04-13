@@ -21,3 +21,7 @@ Some unique features of this scatter plot:
 By using the d3-tip.js plugin, developed by Justin Palmer, users are able to click on individual datapoints to find the more specific detailed data being displayed. This allows users to view the scatter plot at a glance to infer trends and correlations, while also being able to inspect the actual data/numbers without having to only infer approximate values for each circle from the tick marks.
 
 Thank you, and enjoy exploring my D3 chart!
+
+
+
+Data Science & Visualization Boot Camp - Homework 16 D3 Challenge
